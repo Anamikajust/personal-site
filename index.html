@@ -34,7 +34,21 @@
   ::selection{ background:var(--brass-soft); color:var(--ink); }
   a{ color:inherit; }
 
-  .wrap{ max-width:920px; margin:0 auto; padding:0 32px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+  /* ---- Ambient background (fills wide-screen margins with math motifs) ---- */
+  .bg-deco{
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .bg-deco span{
+    position:absolute;
+    font-family:'Source Serif 4', serif; font-style:italic;
+    color:var(--indigo);
+    opacity:0.05;
+    user-select:none;
+  }
+  @media (max-width:1300px){ .bg-deco{ display:none; } }
 
   /* ---- Nav ---- */
   nav{
@@ -63,9 +77,38 @@
 
   /* ---- Hero ---- */
   header.hero{
-    padding:168px 0 96px;
+    padding:176px 0 128px;
     position:relative;
     overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center;
+  }
+  .hero-photo{
+    width:260px; height:260px; border-radius:14px;
+    border:1px solid var(--line);
+    background:var(--paper-alt);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    position:relative;
+    flex-shrink:0;
+  }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-photo .monogram{
+    font-family:'Source Serif 4', serif; font-weight:600; font-size:56px;
+    color:var(--indigo);
+  }
+  .hero-photo::after{
+    content:"";
+    position:absolute; inset:0;
+    border:1px solid var(--brass); border-radius:14px;
+    transform:scale(1.045);
+    opacity:0.5;
+  }
+  @media (max-width:760px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-photo{ width:190px; height:190px; order:-1; margin-bottom:8px; }
+    .hero-photo .monogram{ font-size:38px; }
   }
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
@@ -196,6 +239,17 @@
   .teach-card h4{ font-family:'Source Serif 4', serif; font-size:18px; margin-top:8px; color:var(--ink); }
   .teach-card p{ margin-top:8px; font-size:14.5px; color:var(--ink-soft); }
 
+  /* ---- Awards ---- */
+  .award-list{ display:flex; flex-direction:column; }
+  .award{
+    display:grid; grid-template-columns:90px 1fr; gap:20px;
+    padding:18px 0; border-top:1px solid var(--line);
+  }
+  .award:last-child{ padding-bottom:0; }
+  .award .ayear{ font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--ink-soft); }
+  .award .aname{ font-weight:600; }
+  .award .aorg{ color:var(--ink-soft); font-size:14.5px; margin-top:3px; font-style:italic; }
+
   /* ---- Contact / CV ---- */
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
   .contact-grid p{ color:var(--ink-soft); max-width:44ch; }
@@ -232,14 +286,27 @@
 </head>
 <body>
 
+<div class="bg-deco" aria-hidden="true">
+  <span style="top:14%; left:4%; font-size:120px;">∑</span>
+  <span style="top:38%; left:2%; font-size:64px;">√n</span>
+  <span style="top:62%; left:6%; font-size:90px;">∂</span>
+  <span style="top:84%; left:3%; font-size:70px;">∫</span>
+  <span style="top:10%; right:3%; font-size:64px;">O(√n)</span>
+  <span style="top:32%; right:5%; font-size:110px;">∇</span>
+  <span style="top:58%; right:2%; font-size:80px;">Σ</span>
+  <span style="top:80%; right:6%; font-size:66px;">λ</span>
+</div>
+
+
 <nav>
   <div class="wrap">
-    <div class="nav-mark">A. Poddar</div>
+    <div class="nav-mark">A. Podder</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#research">Research</a></li>
       <li><a href="#publications">Publications</a></li>
       <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#awards">Awards</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -247,17 +314,24 @@
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Mathematics — Numerical Analysis</div>
-    <h1 class="name">Anamika Poddar</h1>
-    <p class="tagline">PhD candidate building memory-efficient numerical algorithms for time-fractional PDEs — sharpening how much of a computation's history a solver actually needs to remember.</p>
-    <div class="hero-meta">
-      <span><span class="dot"></span>PhD Candidate, Mathematics</span>
-      <span><span class="dot"></span>University of Louisiana at Lafayette</span>
-      <span><span class="dot"></span>Advisor: Dr. Yangwen Zhang</span>
-    </div>
-    <div class="hero-cta">
-      <a href="#research" class="btn solid">See the research</a>
-      <a href="cv.pdf" class="btn">Download CV <span class="todo">(add cv.pdf)</span></a>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Mathematics — Numerical Analysis</div>
+        <h1 class="name">Anamika Podder</h1>
+        <p class="tagline">PhD candidate building Incremental Data Compression for Large-Scale Scientific Computing and Data Science Problems.</p>
+        <div class="hero-meta">
+          <span><span class="dot"></span>PhD Candidate, Mathematics</span>
+          <span><span class="dot"></span>University of Louisiana at Lafayette</span>
+          <span><span class="dot"></span>Advisor: Dr. Yangwen Zhang</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#research" class="btn solid">See the research</a>
+          <a href="cv.pdf" class="btn">Download CV</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="photo.jpg" alt="Anamika Podder">
+      </div>
     </div>
   </div>
 </header>
@@ -269,7 +343,8 @@
       <div>
         <p>I'm a PhD candidate in the Department of Mathematics at the University of Louisiana at Lafayette, working with <strong>Dr. Yangwen Zhang</strong> on fast, memory-efficient methods for time-fractional partial differential equations. Fractional-order models capture memory effects — sub-diffusion, viscoelasticity, anomalous transport — but that same memory makes them expensive: classical schemes must store the entire solution history at every time step.</p>
         <p>My dissertation work builds on the ISVD-compressed L1 finite element framework, tightening the compression error bound from <strong>O(n·tol)</strong> to <strong>O(√n·tol)</strong> — a change that lets these solvers keep far less in memory without giving up accuracy.</p>
-        <p>Outside the dissertation, I teach undergraduate mathematics as a graduate teaching assistant during the academic year, and work full-time on research through the summer. My earlier research spans analytical methods for nonlinear fractional evolution equations and computational biology.</p>
+        <p>Outside the dissertation, I work as a graduate assistant during the academic year and full-time on research through the summer. My earlier research spans analytical methods for nonlinear fractional evolution equations and computational biology, including work on soliton solutions and genome-wide gene family identification.</p>
+        <p>I hold an MS in Mathematics from the University of Louisiana at Lafayette (2026) and an MS and BS in Mathematics from Jashore University of Science &amp; Technology, Bangladesh (2022, 2020).</p>
       </div>
       <dl class="facts">
         <dt>Institution</dt>
@@ -277,13 +352,13 @@
         <dt>Advisor</dt>
         <dd>Dr. Yangwen Zhang</dd>
         <dt>Focus</dt>
-        <dd>Numerical analysis, fractional PDEs, low-rank compression</dd>
+        <dd>Numerical analysis, fractional PDEs, low-rank compression, biomathematics</dd>
         <dt>Role</dt>
-        <dd>Graduate Teaching Assistant</dd>
+        <dd>Graduate Assistant</dd>
         <dt>Languages</dt>
         <dd>English, Bengali</dd>
         <dt>Origin</dt>
-        <dd>Bangladesh — Chancellor's Gold Medal, undergraduate honors</dd>
+        <dd>Bangladesh — Chancellor Gold Medal, Jashore University of Science &amp; Technology</dd>
       </dl>
     </div>
   </div>
@@ -345,26 +420,26 @@
     <div class="sec-head"><span class="sec-sym">§</span><h2>Publications</h2></div>
 
     <div class="pub-group">
-      <h3>Fractional PDEs &amp; Numerical Analysis</h3>
+      <h3>Fractional PDEs &amp; Nonlinear Evolution Equations</h3>
       <div class="pub">
         <div class="year">2025</div>
         <div>
-          <div class="title todo">Add paper title</div>
-          <div class="venue">Modern Physics Letters B</div>
+          <div class="title">Dynamical behavior of soliton solutions to the space-time fractional combined KDV-MKDV equation through two robust techniques</div>
+          <div class="venue">Podder, A., Arefin, M. A., Ghazwani, H. A., Uddin, M. H., &amp; Akbar, M. A. — Modern Physics Letters B, 2550031</div>
         </div>
       </div>
       <div class="pub">
         <div class="year">2024</div>
         <div>
-          <div class="title todo">Add paper title</div>
-          <div class="venue">Results in Physics</div>
+          <div class="title">Diverse soliton wave profile assessment to the fractional order nonlinear Landau–Ginzburg–Higgs and coupled Boussinesq–Burger equations</div>
+          <div class="venue">Podder, A., Arefin, M. A., Gepreel, K. A., Uddin, M. H., &amp; Akbar, M. A. — Results in Physics, 65, 107994</div>
         </div>
       </div>
       <div class="pub">
         <div class="year">2023</div>
         <div>
-          <div class="title todo">Add paper title</div>
-          <div class="venue">Scientific Reports</div>
+          <div class="title">A study of the wave dynamics of the space–time fractional nonlinear evolution equations of beta derivative using the improved Bernoulli sub-equation function approach</div>
+          <div class="venue">Podder, A., Arefin, M. A., Akbar, M. A., &amp; Uddin, M. H. — Scientific Reports, 13(1), 20478</div>
         </div>
       </div>
     </div>
@@ -372,22 +447,29 @@
     <div class="pub-group">
       <h3>Computational Biology</h3>
       <div class="pub">
-        <div class="year"><span class="todo">Year</span></div>
+        <div class="year">2024</div>
         <div>
-          <div class="title todo">Add paper title — citrullination site prediction</div>
-          <div class="venue todo">Add venue</div>
+          <div class="title">Genome-wide Identification and Functional Analysis of RNAi Gene Families in Papaya (Carica papaya L.)</div>
+          <div class="venue">Ahmed, F. F., Mim, A. Y., Rownaq, A., Sultana, I., Podder, A., &amp; Sarkar, M. A. R. — Tropical Plant Biology, 1–27</div>
         </div>
       </div>
       <div class="pub">
-        <div class="year"><span class="todo">Year</span></div>
+        <div class="year">2023</div>
         <div>
-          <div class="title todo">Add paper title — RNAi gene families</div>
-          <div class="venue todo">Add venue</div>
+          <div class="title">Genome-wide identification of DCL, AGO and RDR gene families and their associated functional regulatory element analyses in sunflower (Helianthus annuus)</div>
+          <div class="venue">Podder, A., Ahmed, F. F., Suman, M. Z. H., Mim, A. Y., &amp; Hasan, K. — PLoS ONE, 18(6), e0286994</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="year">2023</div>
+        <div>
+          <div class="title">Investigating the Precise Identification of Citrullination Sites with High-Performance Score Metrics using a Powerful Computation Predicting Tool</div>
+          <div class="venue">Ahmed, F. F., Podder, A., Bulbul, M. F., Hossain, M. A., Hasan, M., Sarkar, M. A. R., &amp; Kim, D. — Combinatorial Chemistry &amp; High Throughput Screening</div>
         </div>
       </div>
     </div>
 
-    <p class="fill" style="margin-top:8px;">Replace each <span class="todo">highlighted</span> field with the exact title, authors, and a link (DOI, arXiv, or journal page) once you have them handy.</p>
+    <p class="fill" style="margin-top:8px;">Full publication list also available on <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar</a>.</p>
   </div>
 </section>
 
@@ -396,14 +478,50 @@
     <div class="sec-head"><span class="sec-sym">§</span><h2>Teaching</h2></div>
     <div class="teach-grid">
       <div class="teach-card">
-        <div class="role">Graduate Teaching Assistant</div>
-        <h4 class="todo">Course name / number</h4>
-        <p>University of Louisiana at Lafayette — <span class="todo">semester, year</span></p>
+        <div class="role">Graduate Assistant</div>
+        <h4>Department of Mathematics</h4>
+        <p>University of Louisiana at Lafayette — teaching and research support alongside dissertation work.</p>
       </div>
       <div class="teach-card">
-        <div class="role">Graduate Teaching Assistant</div>
-        <h4 class="todo">Course name / number</h4>
-        <p>University of Louisiana at Lafayette — <span class="todo">semester, year</span></p>
+        <div class="role">Class Representative</div>
+        <h4>Department of Mathematics</h4>
+        <p>Jashore University of Science &amp; Technology — Jan 2019 – Feb 2023</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="awards">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>Awards &amp; Honors</h2></div>
+    <div class="award-list">
+      <div class="award">
+        <div class="ayear">2024</div>
+        <div>
+          <div class="aname">Best Woman Achiever Award — Education &amp; Employment</div>
+          <div class="aorg">Department of Women Affairs, Ministry of Women and Children Affairs, Government of Bangladesh</div>
+        </div>
+      </div>
+      <div class="award">
+        <div class="ayear">2023</div>
+        <div>
+          <div class="aname">Chancellor Gold Medal</div>
+          <div class="aorg">Jashore University of Science &amp; Technology</div>
+        </div>
+      </div>
+      <div class="award">
+        <div class="ayear">2022</div>
+        <div>
+          <div class="aname">University Grants Commission (UGC) Merit Scholarship</div>
+          <div class="aorg">University Grants Commission, Bangladesh</div>
+        </div>
+      </div>
+      <div class="award">
+        <div class="ayear">2020</div>
+        <div>
+          <div class="aname">Participant, 4th Women's Mathematics Olympiad</div>
+          <div class="aorg">Department of Mathematics, University of Dhaka</div>
+        </div>
       </div>
     </div>
   </div>
@@ -416,10 +534,9 @@
       <div>
         <p>I'm always glad to talk about fractional PDEs, low-rank compression, numerical linear algebra, or opportunities in scientific computing.</p>
         <div class="contact-list">
-          <a href="mailto:your.email@louisiana.edu" class="todo">your.email@louisiana.edu</a>
-          <a href="#" class="todo">Google Scholar profile</a>
-          <a href="#" class="todo">LinkedIn</a>
-          <a href="#" class="todo">GitHub</a>
+          <a href="mailto:anamika.math16@gmail.com">anamika.math16@gmail.com</a>
+          <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar profile</a>
+          <a href="https://www.researchgate.net/profile/Anamika_Podder" target="_blank" rel="noopener">ResearchGate profile</a>
         </div>
       </div>
       <dl class="facts">
@@ -427,15 +544,15 @@
         <dd>Mathematics</dd>
         <dt>Institution</dt>
         <dd>University of Louisiana at Lafayette</dd>
-        <dt>Office</dt>
-        <dd class="todo">Add office / building, room</dd>
+        <dt>Location</dt>
+        <dd>Lafayette, Louisiana</dd>
       </dl>
     </div>
   </div>
 </section>
 
 <footer>
-  © <span id="year"></span> Anamika Poddar. Built with care.
+  © <span id="year"></span> Anamika Podder. Built with care.
 </footer>
 
 <script>
