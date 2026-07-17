@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anamika Podder — Mathematics</title>
+<meta name="description" content="Anamika Podder, PhD candidate in Mathematics, University of Louisiana at Lafayette. Research on memory-efficient numerical algorithms for time-fractional PDEs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEBE3;
+    --paper-alt:#E3E0D6;
+    --ink:#22252A;
+    --ink-soft:#4B4F57;
+    --indigo:#2E3B55;
+    --indigo-soft:#3F4F70;
+    --brass:#A8823C;
+    --brass-soft:#C9A25E;
+    --line:#C9C4B6;
+    --white:#FAF9F6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--brass-soft); color:var(--ink); }
+  a{ color:inherit; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+  /* ---- Ambient background (fills wide-screen margins with math motifs) ---- */
+  .bg-deco{
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .bg-deco span{
+    position:absolute;
+    font-family:'Source Serif 4', serif; font-style:italic;
+    color:var(--indigo);
+    opacity:0.05;
+    user-select:none;
+  }
+  @media (max-width:1300px){ .bg-deco{ display:none; } }
+
+  /* ---- Nav ---- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(237,235,227,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:60px;
+  }
+  .nav-mark{
+    font-family:'Source Serif 4', serif; font-weight:700; font-size:19px;
+    letter-spacing:0.01em;
+  }
+  .nav-links{ display:flex; gap:28px; list-style:none; }
+  .nav-links a{
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    text-decoration:none; color:var(--ink-soft);
+    letter-spacing:0.02em;
+    transition:color .15s ease;
+  }
+  .nav-links a:hover{ color:var(--brass); }
+  .nav-toggle{ display:none; background:none; border:none; font-size:22px; cursor:pointer; color:var(--ink); }
+
+  /* ---- Hero ---- */
+  header.hero{
+    padding:176px 0 128px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center;
+  }
+  .hero-photo{
+    width:260px; height:260px; border-radius:14px;
+    border:1px solid var(--line);
+    background:var(--paper-alt);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    position:relative;
+    flex-shrink:0;
+  }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-photo .monogram{
+    font-family:'Source Serif 4', serif; font-weight:600; font-size:56px;
+    color:var(--indigo);
+  }
+  .hero-photo::after{
+    content:"";
+    position:absolute; inset:0;
+    border:1px solid var(--brass); border-radius:14px;
+    transform:scale(1.045);
+    opacity:0.5;
+  }
+  @media (max-width:760px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-photo{ width:190px; height:190px; order:-1; margin-bottom:8px; }
+    .hero-photo .monogram{ font-size:38px; }
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px; color:var(--brass);
+    letter-spacing:0.08em; text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  h1.name{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    font-size:clamp(40px, 6vw, 64px);
+    line-height:1.05;
+    color:var(--indigo);
+    max-width:11ch;
+  }
+  .tagline{
+    margin-top:22px;
+    max-width:56ch;
+    font-size:19px;
+    color:var(--ink-soft);
+  }
+  .hero-meta{
+    margin-top:36px;
+    display:flex; flex-wrap:wrap; gap:10px 28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .hero-meta span{ display:flex; align-items:center; gap:8px; }
+  .hero-meta .dot{ width:5px; height:5px; border-radius:50%; background:var(--brass); display:inline-block; }
+  .hero-cta{ margin-top:40px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    padding:12px 22px;
+    border:1px solid var(--indigo);
+    color:var(--indigo);
+    text-decoration:none;
+    transition:all .18s ease;
+  }
+  .btn:hover{ background:var(--indigo); color:var(--white); }
+  .btn.solid{ background:var(--indigo); color:var(--white); }
+  .btn.solid:hover{ background:var(--indigo-soft); border-color:var(--indigo-soft); }
+
+  /* ---- Section scaffolding ---- */
+  section{ padding:88px 0; border-top:1px solid var(--line); }
+  .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom:44px; }
+  .sec-sym{
+    font-family:'Source Serif 4', serif; font-style:italic;
+    font-size:22px; color:var(--brass);
+  }
+  h2{
+    font-family:'Source Serif 4', serif; font-weight:600;
+    font-size:30px; color:var(--indigo);
+  }
+
+  /* ---- About ---- */
+  .about-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:56px; }
+  .about-grid p + p{ margin-top:16px; }
+  .about-grid p{ color:var(--ink-soft); }
+  .about-grid strong{ color:var(--ink); font-weight:600; }
+  .facts{
+    background:var(--paper-alt);
+    border:1px solid var(--line);
+    padding:26px 26px;
+    height:fit-content;
+  }
+  .facts dt{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--brass); text-transform:uppercase; letter-spacing:.06em;
+    margin-top:18px;
+  }
+  .facts dt:first-child{ margin-top:0; }
+  .facts dd{ margin-top:4px; font-size:15px; }
+
+  /* ---- Research ---- */
+  .research-lede{ max-width:66ch; color:var(--ink-soft); margin-bottom:48px; }
+  .research-lede strong{ color:var(--ink); font-weight:600; }
+  .chart-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    padding:36px 36px 28px;
+  }
+  .chart-card h3{
+    font-family:'IBM Plex Mono', monospace; font-weight:500;
+    font-size:13px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em;
+    margin-bottom:4px;
+  }
+  .chart-card .chart-title{
+    font-family:'Source Serif 4', serif; font-size:20px; color:var(--indigo);
+    margin-bottom:20px;
+  }
+  .chart-legend{ display:flex; gap:24px; margin-top:14px; flex-wrap:wrap; }
+  .chart-legend span{
+    display:flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft);
+  }
+  .swatch{ width:18px; height:3px; display:inline-block; }
+  .research-blurbs{ margin-top:52px; display:grid; gap:28px; }
+  .research-item{ display:grid; grid-template-columns:100px 1fr; gap:24px; }
+  .research-item .rlabel{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--brass);
+    padding-top:3px;
+  }
+  .research-item h4{ font-family:'Source Serif 4', serif; font-size:18px; color:var(--ink); font-weight:600; margin-bottom:6px; }
+  .research-item p{ color:var(--ink-soft); font-size:15.5px; }
+
+  /* ---- Publications ---- */
+  .pub-group{ margin-bottom:40px; }
+  .pub-group h3{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--brass);
+    text-transform:uppercase; letter-spacing:.06em; margin-bottom:18px;
+  }
+  .pub{
+    padding:18px 0; border-top:1px solid var(--line);
+    display:grid; grid-template-columns:70px 1fr; gap:20px;
+  }
+  .pub:last-child{ padding-bottom:0; }
+  .pub .year{ font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--ink-soft); }
+  .pub .title{ font-weight:600; }
+  .pub .venue{ color:var(--ink-soft); font-size:14.5px; margin-top:3px; font-style:italic; }
+  .pub .fill{ color:var(--brass); font-size:13px; font-family:'IBM Plex Mono',monospace; }
+
+  /* ---- Teaching ---- */
+  .teach-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+  .teach-card{ border:1px solid var(--line); background:var(--paper-alt); padding:22px 24px; }
+  .teach-card .role{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--brass); text-transform:uppercase; letter-spacing:.05em; }
+  .teach-card h4{ font-family:'Source Serif 4', serif; font-size:18px; margin-top:8px; color:var(--ink); }
+  .teach-card p{ margin-top:8px; font-size:14.5px; color:var(--ink-soft); }
+
+  /* ---- Awards ---- */
+  .award-list{ display:flex; flex-direction:column; }
+  .award{
+    display:grid; grid-template-columns:90px 1fr; gap:20px;
+    padding:18px 0; border-top:1px solid var(--line);
+  }
+  .award:last-child{ padding-bottom:0; }
+  .award .ayear{ font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--ink-soft); }
+  .award .aname{ font-weight:600; }
+  .award .aorg{ color:var(--ink-soft); font-size:14.5px; margin-top:3px; font-style:italic; }
+
+  /* ---- Contact / CV ---- */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
+  .contact-grid p{ color:var(--ink-soft); max-width:44ch; }
+  .contact-list{ margin-top:22px; display:flex; flex-direction:column; gap:12px; }
+  .contact-list a{
+    font-family:'IBM Plex Mono', monospace; font-size:14.5px;
+    text-decoration:none; color:var(--indigo);
+    border-bottom:1px solid transparent;
+  }
+  .contact-list a:hover{ border-color:var(--indigo); }
+
+  footer{
+    padding:36px 0 48px; text-align:center;
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft);
+  }
+
+  /* fill markers */
+  .todo{
+    background:rgba(168,130,60,0.14);
+    border:1px dashed var(--brass);
+    padding:1px 6px;
+    font-size:0.92em;
+  }
+
+  @media (max-width:760px){
+    .nav-links{ display:none; }
+    .about-grid, .contact-grid{ grid-template-columns:1fr; }
+    .teach-grid{ grid-template-columns:1fr; }
+    .research-item{ grid-template-columns:1fr; }
+    .pub{ grid-template-columns:1fr; gap:6px; }
+    header.hero{ padding:140px 0 64px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-deco" aria-hidden="true">
+  <span style="top:14%; left:4%; font-size:120px;">∑</span>
+  <span style="top:38%; left:2%; font-size:64px;">√n</span>
+  <span style="top:62%; left:6%; font-size:90px;">∂</span>
+  <span style="top:84%; left:3%; font-size:70px;">∫</span>
+  <span style="top:10%; right:3%; font-size:64px;">O(√n)</span>
+  <span style="top:32%; right:5%; font-size:110px;">∇</span>
+  <span style="top:58%; right:2%; font-size:80px;">Σ</span>
+  <span style="top:80%; right:6%; font-size:66px;">λ</span>
+</div>
+
+
+<nav>
+  <div class="wrap">
+    <div class="nav-mark">A. Podder</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Mathematics — Numerical Analysis</div>
+        <h1 class="name">Anamika Podder</h1>
+        <p class="tagline">PhD candidate building Incremental Data Compression for Large-Scale Scientific Computing and Data Science Problems.</p>
+        <div class="hero-meta">
+          <span><span class="dot"></span>PhD Candidate, Mathematics</span>
+          <span><span class="dot"></span>University of Louisiana at Lafayette</span>
+          <span><span class="dot"></span>Advisor: Dr. Yangwen Zhang</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#research" class="btn solid">See the research</a>
+          <a href="cv.pdf" class="btn">Download CV</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="photo.jpg" alt="Anamika Podder">
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a PhD candidate in the Department of Mathematics at the University of Louisiana at Lafayette, working with <strong>Dr. Yangwen Zhang</strong> on fast, memory-efficient methods for time-fractional partial differential equations. Fractional-order models capture memory effects — sub-diffusion, viscoelasticity, anomalous transport — but that same memory makes them expensive: classical schemes must store the entire solution history at every time step.</p>
+        <p>My dissertation work builds on the ISVD-compressed L1 finite element framework, tightening the compression error bound from <strong>O(n·tol)</strong> to <strong>O(√n·tol)</strong> — a change that lets these solvers keep far less in memory without giving up accuracy.</p>
+        <p>Outside the dissertation, I work as a graduate assistant during the academic year and full-time on research through the summer. My earlier research spans analytical methods for nonlinear fractional evolution equations and computational biology, including work on soliton solutions and genome-wide gene family identification.</p>
+        <p>I hold an MS in Mathematics from the University of Louisiana at Lafayette (2026) and an MS and BS in Mathematics from Jashore University of Science &amp; Technology, Bangladesh (2022, 2020).</p>
+      </div>
+      <dl class="facts">
+        <dt>Institution</dt>
+        <dd>University of Louisiana at Lafayette</dd>
+        <dt>Advisor</dt>
+        <dd>Dr. Yangwen Zhang</dd>
+        <dt>Focus</dt>
+        <dd>Numerical analysis, fractional PDEs, low-rank compression, biomathematics</dd>
+        <dt>Role</dt>
+        <dd>Graduate Assistant</dd>
+        <dt>Languages</dt>
+        <dd>English, Bengali</dd>
+        <dt>Origin</dt>
+        <dd>Bangladesh — Chancellor Gold Medal, Jashore University of Science &amp; Technology</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>Research</h2></div>
+    <p class="research-lede">Time-fractional PDEs model systems with memory — the solution at every past moment influences the present. Discretizing them (e.g. with L1-type schemes) means storing that entire history, which grows the memory footprint linearly with the number of time steps, <strong>n</strong>. The ISVD (incremental SVD) framework compresses that history on the fly. My contribution tightens the bound on how much compression error that introduces.</p>
+
+    <div class="chart-card">
+      <h3>Compression error bound</h3>
+      <div class="chart-title">O(n·tol) → O(√n·tol)</div>
+      <svg viewBox="0 0 640 260" width="100%" height="auto" role="img" aria-label="Chart comparing linear and square-root error bound scaling as n grows">
+        <line x1="50" y1="20" x2="50" y2="220" stroke="#C9C4B6" stroke-width="1"/>
+        <line x1="50" y1="220" x2="610" y2="220" stroke="#C9C4B6" stroke-width="1"/>
+        <text x="46" y="235" font-family="IBM Plex Mono" font-size="11" fill="#4B4F57" text-anchor="middle">0</text>
+        <text x="610" y="235" font-family="IBM Plex Mono" font-size="11" fill="#4B4F57" text-anchor="end">n (time steps)</text>
+        <text x="30" y="24" font-family="IBM Plex Mono" font-size="11" fill="#4B4F57" text-anchor="middle">err</text>
+        <path d="M 50 220 L 610 30" stroke="#C9A25E" stroke-width="2.5" fill="none"/>
+        <path d="M 50 220 Q 200 165 610 118" stroke="#2E3B55" stroke-width="2.5" fill="none"/>
+        <text x="560" y="45" font-family="IBM Plex Mono" font-size="12" fill="#A8823C">O(n·tol)</text>
+        <text x="560" y="135" font-family="IBM Plex Mono" font-size="12" fill="#2E3B55">O(√n·tol)</text>
+      </svg>
+      <div class="chart-legend">
+        <span><span class="swatch" style="background:#C9A25E"></span>Prior bound — grows linearly with n</span>
+        <span><span class="swatch" style="background:#2E3B55"></span>This work — grows with √n</span>
+      </div>
+    </div>
+
+    <div class="research-blurbs">
+      <div class="research-item">
+        <div class="rlabel">01 / Theory</div>
+        <div>
+          <h4>Sharper ISVD compression bounds</h4>
+          <p>Improved the incremental-SVD compression error bound for the L1-FEM history matrix from linear to square-root growth in the number of time steps, using a discrete fractional Grönwall inequality applied to the unsquared error norm — the step that preserves the √n improvement rather than losing it to squaring.</p>
+        </div>
+      </div>
+      <div class="research-item">
+        <div class="rlabel">02 / Method</div>
+        <div>
+          <h4>ISVD-compressed L1-FEM</h4>
+          <p>Builds on Dr. Zhang's ISVD-compressed L1 finite element framework for time-fractional sub-diffusion equations, which compresses the solution history on the fly instead of storing it in full.</p>
+        </div>
+      </div>
+      <div class="research-item">
+        <div class="rlabel">03 / Writing</div>
+        <div>
+          <h4>Current paper</h4>
+          <p><span class="todo">Working title — add when finalized</span>. In preparation with Dr. Yangwen Zhang, alongside a companion paper (Li–Zhang–Zhang).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>Publications</h2></div>
+
+    <div class="pub-group">
+      <h3>Fractional PDEs &amp; Nonlinear Evolution Equations</h3>
+      <div class="pub">
+        <div class="year">2025</div>
+        <div>
+          <div class="title">Dynamical behavior of soliton solutions to the space-time fractional combined KDV-MKDV equation through two robust techniques</div>
+          <div class="venue">Podder, A., Arefin, M. A., Ghazwani, H. A., Uddin, M. H., &amp; Akbar, M. A. — Modern Physics Letters B, 2550031</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="year">2024</div>
+        <div>
+          <div class="title">Diverse soliton wave profile assessment to the fractional order nonlinear Landau–Ginzburg–Higgs and coupled Boussinesq–Burger equations</div>
+          <div class="venue">Podder, A., Arefin, M. A., Gepreel, K. A., Uddin, M. H., &amp; Akbar, M. A. — Results in Physics, 65, 107994</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="year">2023</div>
+        <div>
+          <div class="title">A study of the wave dynamics of the space–time fractional nonlinear evolution equations of beta derivative using the improved Bernoulli sub-equation function approach</div>
+          <div class="venue">Podder, A., Arefin, M. A., Akbar, M. A., &amp; Uddin, M. H. — Scientific Reports, 13(1), 20478</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-group">
+      <h3>Computational Biology</h3>
+      <div class="pub">
+        <div class="year">2024</div>
+        <div>
+          <div class="title">Genome-wide Identification and Functional Analysis of RNAi Gene Families in Papaya (Carica papaya L.)</div>
+          <div class="venue">Ahmed, F. F., Mim, A. Y., Rownaq, A., Sultana, I., Podder, A., &amp; Sarkar, M. A. R. — Tropical Plant Biology, 1–27</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="year">2023</div>
+        <div>
+          <div class="title">Genome-wide identification of DCL, AGO and RDR gene families and their associated functional regulatory element analyses in sunflower (Helianthus annuus)</div>
+          <div class="venue">Podder, A., Ahmed, F. F., Suman, M. Z. H., Mim, A. Y., &amp; Hasan, K. — PLoS ONE, 18(6), e0286994</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="year">2023</div>
+        <div>
+          <div class="title">Investigating the Precise Identification of Citrullination Sites with High-Performance Score Metrics using a Powerful Computation Predicting Tool</div>
+          <div class="venue">Ahmed, F. F., Podder, A., Bulbul, M. F., Hossain, M. A., Hasan, M., Sarkar, M. A. R., &amp; Kim, D. — Combinatorial Chemistry &amp; High Throughput Screening</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="fill" style="margin-top:8px;">Full publication list also available on <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar</a>.</p>
+  </div>
+</section>
+
+<section id="teaching">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>Teaching</h2></div>
+    <div class="teach-grid">
+      <div class="teach-card">
+        <div class="role">Graduate Assistant</div>
+        <h4>Department of Mathematics</h4>
+        <p>University of Louisiana at Lafayette — teaching and research support alongside dissertation work.</p>
+      </div>
+      <div class="teach-card">
+        <div class="role">Class Representative</div>
+        <h4>Department of Mathematics</h4>
+        <p>Jashore University of Science &amp; Technology — Jan 2019 – Feb 2023</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="awards">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>Awards &amp; Honors</h2></div>
+    <div class="award-list">
+      <div class="award">
+        <div class="ayear">2024</div>
+        <div>
+          <div class="aname">Best Woman Achiever Award — Education &amp; Employment</div>
+          <div class="aorg">Department of Women Affairs, Ministry of Women and Children Affairs, Government of Bangladesh</div>
+        </div>
+      </div>
+      <div class="award">
+        <div class="ayear">2023</div>
+        <div>
+          <div class="aname">Chancellor Gold Medal</div>
+          <div class="aorg">Jashore University of Science &amp; Technology</div>
+        </div>
+      </div>
+      <div class="award">
+        <div class="ayear">2022</div>
+        <div>
+          <div class="aname">University Grants Commission (UGC) Merit Scholarship</div>
+          <div class="aorg">University Grants Commission, Bangladesh</div>
+        </div>
+      </div>
+      <div class="award">
+        <div class="ayear">2020</div>
+        <div>
+          <div class="aname">Participant, 4th Women's Mathematics Olympiad</div>
+          <div class="aorg">Department of Mathematics, University of Dhaka</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-sym">§</span><h2>Contact</h2></div>
+    <div class="contact-grid">
+      <div>
+        <p>I'm always glad to talk about fractional PDEs, low-rank compression, numerical linear algebra, or opportunities in scientific computing.</p>
+        <div class="contact-list">
+          <a href="mailto:anamika.math16@gmail.com">anamika.math16@gmail.com</a>
+          <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar profile</a>
+          <a href="https://www.researchgate.net/profile/Anamika_Podder" target="_blank" rel="noopener">ResearchGate profile</a>
+        </div>
+      </div>
+      <dl class="facts">
+        <dt>Department</dt>
+        <dd>Mathematics</dd>
+        <dt>Institution</dt>
+        <dd>University of Louisiana at Lafayette</dd>
+        <dt>Location</dt>
+        <dd>Lafayette, Louisiana</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> Anamika Podder. Built with care.
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
