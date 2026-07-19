@@ -105,10 +105,28 @@
     transform:scale(1.045);
     opacity:0.5;
   }
+  .hero-photo-block{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .research-timer{ text-align:center; }
+  .rt-label{
+    font-family:'IBM Plex Mono', monospace; font-size:14px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em;
+    color:var(--brass);
+  }
+  .rt-value{
+    font-family:'IBM Plex Mono', monospace; font-weight:500;
+    font-size:20px; color:var(--indigo);
+    margin-top:4px; letter-spacing:0.01em;
+  }
+  .rt-unit{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--ink-soft); margin-top:2px;
+  }
   @media (max-width:760px){
+    .rt-value{ font-size:17px; }
     .hero-grid{ grid-template-columns:1fr; }
-    .hero-photo{ width:190px; height:190px; order:-1; margin-bottom:8px; }
+    .hero-photo{ width:190px; height:190px; }
     .hero-photo .monogram{ font-size:38px; }
+    .hero-photo-block{ order:-1; margin-bottom:8px; }
   }
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
@@ -184,6 +202,43 @@
   .facts dt:first-child{ margin-top:0; }
   .facts dd{ margin-top:4px; font-size:15px; }
 
+  /* ---- Theorem box ---- */
+  .theorem-box{
+    background:var(--white);
+    border:1px solid var(--ink);
+    padding:34px 40px;
+    position:relative;
+  }
+  .theorem-box::before, .theorem-box::after{
+    content:"";
+    position:absolute; left:0; right:0; height:3px;
+    background:var(--ink);
+  }
+  .theorem-box::before{ top:-1px; }
+  .theorem-box::after{ bottom:-1px; }
+  .theorem-label{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:.08em;
+    color:var(--brass); margin-bottom:14px;
+  }
+  .theorem-statement{
+    font-family:'Source Serif 4', serif; font-style:italic;
+    font-size:19px; line-height:1.7; color:var(--ink);
+  }
+  .theorem-statement .math{
+    font-family:'IBM Plex Mono', monospace; font-style:normal;
+    font-size:0.92em; color:var(--indigo);
+  }
+  .theorem-note{
+    margin-top:22px; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; gap:28px;
+  }
+  .theorem-note .compare{
+    font-family:'IBM Plex Mono', monospace; font-size:13.5px; color:var(--ink-soft);
+  }
+  .theorem-note .compare b{ color:var(--ink); font-weight:600; }
+  .theorem-note .compare.improved b{ color:var(--indigo); }
+
   /* ---- Research ---- */
   .research-lede{ max-width:66ch; color:var(--ink-soft); margin-bottom:48px; }
   .research-lede strong{ color:var(--ink); font-weight:600; }
@@ -238,6 +293,20 @@
   .teach-card .role{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--brass); text-transform:uppercase; letter-spacing:.05em; }
   .teach-card h4{ font-family:'Source Serif 4', serif; font-size:18px; margin-top:8px; color:var(--ink); }
   .teach-card p{ margin-top:8px; font-size:14.5px; color:var(--ink-soft); }
+
+  /* ---- Teaching ---- */
+  .teach-list{ display:flex; flex-direction:column; }
+  .teach-entry{
+    display:grid; grid-template-columns:120px 1fr; gap:20px;
+    padding:20px 0; border-top:1px solid var(--line);
+  }
+  .teach-entry:last-child{ padding-bottom:0; }
+  .teach-entry .tsem{ font-family:'IBM Plex Mono', monospace; font-size:13.5px; color:var(--ink-soft); }
+  .teach-entry .trole{ font-weight:600; font-family:'Source Serif 4', serif; font-size:17px; color:var(--ink); }
+  .teach-entry .tdesc{ margin-top:5px; font-size:14.5px; color:var(--ink-soft); }
+  @media (max-width:760px){
+    .teach-entry{ grid-template-columns:1fr; gap:4px; }
+  }
 
   /* ---- Awards ---- */
   .award-list{ display:flex; flex-direction:column; }
@@ -329,8 +398,15 @@
           <a href="cv.pdf" class="btn">Download CV</a>
         </div>
       </div>
-      <div class="hero-photo">
-        <img src="photo.jpg" alt="Anamika Podder">
+      <div class="hero-photo-block">
+        <div class="hero-photo">
+          <img src="photo.jpg" alt="Anamika Podder">
+        </div>
+        <div class="research-timer">
+          <div class="rt-label">Research Experience</div>
+          <div class="rt-value" id="researchTimer">0.0000000000</div>
+          <div class="rt-unit">years</div>
+        </div>
       </div>
     </div>
   </div>
@@ -370,25 +446,22 @@
 <section id="research">
   <div class="wrap">
     <div class="sec-head"><span class="sec-sym">§</span><h2>Research</h2></div>
-    <p class="research-lede">Time-fractional PDEs model systems with memory — the solution at every past moment influences the present. Discretizing them (e.g. with L1-type schemes) means storing that entire history, which grows the memory footprint linearly with the number of time steps, <strong>n</strong>. The ISVD (incremental SVD) framework compresses that history on the fly. My contribution tightens the bound on how much compression error that introduces.</p>
+    <p class="research-lede">Time-fractional partial differential equations model systems with memory: the solution at every past time step influences the present. Discretizing such problems with L1-type finite element schemes requires storing that entire history, so the memory footprint grows linearly in the number of time steps, <span class="theorem-statement" style="font-size:1em; font-style:normal; display:inline;"><span class="math">n</span></span>. The ISVD (incremental SVD) framework compresses this history on the fly; my contribution establishes a sharper bound on the compression error this introduces.</p>
 
-    <div class="chart-card">
-      <h3>Compression error bound</h3>
-      <div class="chart-title">O(n·tol) → O(√n·tol)</div>
-      <svg viewBox="0 0 640 260" width="100%" height="auto" role="img" aria-label="Chart comparing linear and square-root error bound scaling as n grows">
-        <line x1="50" y1="20" x2="50" y2="220" stroke="#C9C4B6" stroke-width="1"/>
-        <line x1="50" y1="220" x2="610" y2="220" stroke="#C9C4B6" stroke-width="1"/>
-        <text x="46" y="235" font-family="IBM Plex Mono" font-size="11" fill="#4B4F57" text-anchor="middle">0</text>
-        <text x="610" y="235" font-family="IBM Plex Mono" font-size="11" fill="#4B4F57" text-anchor="end">n (time steps)</text>
-        <text x="30" y="24" font-family="IBM Plex Mono" font-size="11" fill="#4B4F57" text-anchor="middle">err</text>
-        <path d="M 50 220 L 610 30" stroke="#C9A25E" stroke-width="2.5" fill="none"/>
-        <path d="M 50 220 Q 200 165 610 118" stroke="#2E3B55" stroke-width="2.5" fill="none"/>
-        <text x="560" y="45" font-family="IBM Plex Mono" font-size="12" fill="#A8823C">O(n·tol)</text>
-        <text x="560" y="135" font-family="IBM Plex Mono" font-size="12" fill="#2E3B55">O(√n·tol)</text>
-      </svg>
-      <div class="chart-legend">
-        <span><span class="swatch" style="background:#C9A25E"></span>Prior bound — grows linearly with n</span>
-        <span><span class="swatch" style="background:#2E3B55"></span>This work — grows with √n</span>
+    <div class="theorem-box">
+      <div class="theorem-label">Theorem — Compression Error Bound</div>
+      <p class="theorem-statement">
+        Let the ISVD compression be applied with truncation tolerance <span class="math">tol</span> over <span class="math">n</span> time steps. Then the accumulated compression error satisfies
+      </p>
+      <p class="theorem-statement" style="margin-top:14px; text-align:center;">
+        <span class="math">‖e‖ = O(√n · tol)</span>
+      </p>
+      <p class="theorem-statement" style="margin-top:14px;">
+        improving on the previously established bound of <span class="math">O(n · tol)</span>, via a discrete fractional Grönwall inequality applied to the unsquared error norm.
+      </p>
+      <div class="theorem-note">
+        <span class="compare">Prior bound: <b>O(n · tol)</b> — grows linearly with n</span>
+        <span class="compare improved">This work: <b>O(√n · tol)</b> — grows with √n</span>
       </div>
     </div>
 
@@ -397,14 +470,14 @@
         <div class="rlabel">01 / Theory</div>
         <div>
           <h4>Sharper ISVD compression bounds</h4>
-          <p>Improved the incremental-SVD compression error bound for the L1-FEM history matrix from linear to square-root growth in the number of time steps, using a discrete fractional Grönwall inequality applied to the unsquared error norm — the step that preserves the √n improvement rather than losing it to squaring.</p>
+          <p>Improved the incremental-SVD compression error bound for the L1-FEM history matrix from linear to square-root growth in the number of time steps, using a discrete fractional Grönwall inequality applied to the unsquared error norm — the step that preserves the √n improvement.</p>
         </div>
       </div>
       <div class="research-item">
         <div class="rlabel">02 / Method</div>
         <div>
           <h4>ISVD-compressed L1-FEM</h4>
-          <p>Builds on Dr. Zhang's ISVD-compressed L1 finite element framework for time-fractional sub-diffusion equations, which compresses the solution history on the fly instead of storing it in full.</p>
+          <p>Extends and adapts Dr. Zhang's ISVD-compressed L1 finite element framework for time-fractional sub-diffusion equations, which compresses the solution history on the fly instead of storing it in full.</p>
         </div>
       </div>
       <div class="research-item">
@@ -479,16 +552,41 @@
 <section id="teaching">
   <div class="wrap">
     <div class="sec-head"><span class="sec-sym">§</span><h2>Teaching</h2></div>
-    <div class="teach-grid">
-      <div class="teach-card">
-        <div class="role">Graduate Assistant</div>
-        <h4>Department of Mathematics</h4>
-        <p>University of Louisiana at Lafayette — teaching and research support alongside dissertation work.</p>
+    <div class="teach-list">
+      <div class="teach-entry">
+        <div class="tsem">Fall 2026</div>
+        <div>
+          <div class="trole">Instructor, MTHS 105 — Applied College Algebra</div>
+          <div class="tdesc">University of Louisiana at Lafayette — class of 35–36 students; held weekly office hours</div>
+        </div>
       </div>
-      <div class="teach-card">
-        <div class="role">Class Representative</div>
-        <h4>Department of Mathematics</h4>
-        <p>Jashore University of Science &amp; Technology — Jan 2019 – Feb 2023</p>
+      <div class="teach-entry">
+        <div class="tsem">Spring 2026</div>
+        <div>
+          <div class="trole">Instructor, MTHS 105 — Applied College Algebra</div>
+          <div class="tdesc">University of Louisiana at Lafayette — class of 35–36 students; held weekly office hours; provided accommodated instruction for a student registered with the Office of Disability Services (ODS)</div>
+        </div>
+      </div>
+      <div class="teach-entry">
+        <div class="tsem">Fall 2025</div>
+        <div>
+          <div class="trole">Instructor, MTHS 105 — Applied College Algebra</div>
+          <div class="tdesc">University of Louisiana at Lafayette — class of 35–36 students; held weekly office hours</div>
+        </div>
+      </div>
+      <div class="teach-entry">
+        <div class="tsem">Spring 2025</div>
+        <div>
+          <div class="trole">Grading &amp; Tutoring</div>
+          <div class="tdesc">Department of Mathematics, University of Louisiana at Lafayette</div>
+        </div>
+      </div>
+      <div class="teach-entry">
+        <div class="tsem">Fall 2024</div>
+        <div>
+          <div class="trole">Grading &amp; Tutoring</div>
+          <div class="tdesc">Department of Mathematics, University of Louisiana at Lafayette</div>
+        </div>
       </div>
     </div>
   </div>
@@ -537,9 +635,13 @@
       <div>
         <p>I'm always glad to talk about fractional PDEs, low-rank compression, numerical linear algebra, or opportunities in scientific computing.</p>
         <div class="contact-list">
-          <a href="mailto:anamika.math16@gmail.com">anamika.math16@gmail.com</a>
-          <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar profile</a>
-          <a href="https://www.researchgate.net/profile/Anamika_Podder" target="_blank" rel="noopener">ResearchGate profile</a>
+          <a href="mailto:anamika.math16@gmail.com">📧 Email</a>
+          <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">🎓 Google Scholar</a>
+          <a href="https://www.researchgate.net/profile/Anamika_Podder" target="_blank" rel="noopener">🧪 ResearchGate</a>
+          <a href="https://orcid.org/0000-0002-8814-7730" target="_blank" rel="noopener">🆔 ORCID</a>
+          <a href="https://www.linkedin.com/in/anamika-podder-9721032a3?trk=people-guest_people_search-card" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a href="https://www.facebook.com/anamika.podder.188/" target="_blank" rel="noopener">📘 Facebook</a>
+          <a href="https://math.louisiana.edu/about-us/people/graduate-students" target="_blank" rel="noopener">🏫 UL Lafayette — Mathematics</a>
         </div>
       </div>
       <dl class="facts">
@@ -560,6 +662,17 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  const researchStart = new Date('2020-01-26T00:00:00');
+  const msPerYear = 1000 * 60 * 60 * 24 * 365.25;
+  function updateResearchTimer(){
+    const el = document.getElementById('researchTimer');
+    if(!el) return;
+    const years = (Date.now() - researchStart.getTime()) / msPerYear;
+    el.textContent = years.toFixed(10);
+  }
+  updateResearchTimer();
+  setInterval(updateResearchTimer, 30);
 </script>
 
 </body>
