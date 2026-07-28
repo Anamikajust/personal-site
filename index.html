@@ -372,7 +372,6 @@
     <div class="nav-mark">A. Podder</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#research">Research</a></li>
       <li><a href="#publications">Publications</a></li>
       <li><a href="#teaching">Teaching</a></li>
       <li><a href="#awards">Awards</a></li>
@@ -387,14 +386,14 @@
       <div>
         <div class="eyebrow">Mathematics — Numerical Analysis</div>
         <h1 class="name">Anamika Podder</h1>
-        <p class="tagline">PhD candidate building Incremental Data Compression for Large-Scale Scientific Computing and Data Science Problems.</p>
+        <p class="tagline">PhD candidate developing Incremental Data Compression for Large-Scale Scientific Computing and Data Science Problems.</p>
         <div class="hero-meta">
           <span><span class="dot"></span>PhD Candidate, Mathematics</span>
           <span><span class="dot"></span>University of Louisiana at Lafayette</span>
           <span><span class="dot"></span>Advisor: Dr. Yangwen Zhang</span>
         </div>
         <div class="hero-cta">
-          <a href="#research" class="btn solid">See the research</a>
+          <a href="#publications" class="btn solid">See the research</a>
           <a href="cv.pdf" class="btn">Download CV</a>
         </div>
       </div>
@@ -417,11 +416,9 @@
     <div class="sec-head"><span class="sec-sym">§</span><h2>About</h2></div>
     <div class="about-grid">
       <div>
-<p>I'm a Ph.D. candidate in the Department of Mathematics at the University of Louisiana at Lafayette, where my research focuses on numerical analysis, scientific computing, and the development of efficient algorithms for large-scale mathematical models. I work with <strong>Dr. Yangwen Zhang</strong> on memory-efficient computational methods for time-fractional partial differential equations using finite element methods and low-rank approximation techniques.</p>
+<p>I'm a Ph.D. candidate in the Department of Mathematics at the University of Louisiana at Lafayette, where my research focuses on numerical analysis, scientific computing, and the development of efficient algorithms for large-scale mathematical models.</p>
 
 <p>My research aims to reduce the computational cost and memory requirements of large-scale simulations while maintaining mathematical accuracy and reliability. These methods support high-performance scientific computing and have potential applications in areas such as energy systems, environmental modeling, materials science, and data-driven computational technologies.</p>
-
-<p>More broadly, I am interested in designing scalable numerical algorithms for complex differential equations, error analysis, scientific machine learning, and next-generation computational methods that bridge applied mathematics with modern scientific and engineering applications.</p>
 
 <p>I received my M.S. in Mathematics from the University of Louisiana at Lafayette and my B.S. and M.S. in Mathematics from Jashore University of Science and Technology, Bangladesh.</p>
       </div>
@@ -431,62 +428,12 @@
         <dt>Advisor</dt>
         <dd>Dr. Yangwen Zhang</dd>
         <dt>Focus</dt>
-        <dd>Numerical analysis, fractional PDEs, low-rank compression, biomathematics</dd>
+        <dd>Numerical analysis, low-rank compression, analytic &amp; numerical solutions of fractional PDEs</dd>
         <dt>Role</dt>
         <dd>Graduate Assistant</dd>
         <dt>Languages</dt>
         <dd>English, Bengali</dd>
-        <dt>Origin</dt>
-        <dd>Bangladesh — Chancellor Gold Medal, Jashore University of Science &amp; Technology</dd>
       </dl>
-    </div>
-  </div>
-</section>
-
-<section id="research">
-  <div class="wrap">
-    <div class="sec-head"><span class="sec-sym">§</span><h2>Research</h2></div>
-    <p class="research-lede">Time-fractional partial differential equations model systems with memory: the solution at every past time step influences the present. Discretizing such problems with L1-type finite element schemes requires storing that entire history, so the memory footprint grows linearly in the number of time steps, <span class="theorem-statement" style="font-size:1em; font-style:normal; display:inline;"><span class="math">n</span></span>. The ISVD (incremental SVD) framework compresses this history on the fly; my contribution establishes a sharper bound on the compression error this introduces.</p>
-
-    <div class="theorem-box">
-      <div class="theorem-label">Theorem — Compression Error Bound</div>
-      <p class="theorem-statement">
-        Let the ISVD compression be applied with truncation tolerance <span class="math">tol</span> over <span class="math">n</span> time steps. Then the accumulated compression error satisfies
-      </p>
-      <p class="theorem-statement" style="margin-top:14px; text-align:center;">
-        <span class="math">‖e‖ = O(√n · tol)</span>
-      </p>
-      <p class="theorem-statement" style="margin-top:14px;">
-        improving on the previously established bound of <span class="math">O(n · tol)</span>, via a discrete fractional Grönwall inequality applied to the unsquared error norm.
-      </p>
-      <div class="theorem-note">
-        <span class="compare">Prior bound: <b>O(n · tol)</b> — grows linearly with n</span>
-        <span class="compare improved">This work: <b>O(√n · tol)</b> — grows with √n</span>
-      </div>
-    </div>
-
-    <div class="research-blurbs">
-      <div class="research-item">
-        <div class="rlabel">01 / Theory</div>
-        <div>
-          <h4>Sharper ISVD compression bounds</h4>
-          <p>Improved the incremental-SVD compression error bound for the L1-FEM history matrix from linear to square-root growth in the number of time steps, using a discrete fractional Grönwall inequality applied to the unsquared error norm — the step that preserves the √n improvement.</p>
-        </div>
-      </div>
-      <div class="research-item">
-        <div class="rlabel">02 / Method</div>
-        <div>
-          <h4>ISVD-compressed L1-FEM</h4>
-          <p>Extends and adapts Dr. Zhang's ISVD-compressed L1 finite element framework for time-fractional sub-diffusion equations, which compresses the solution history on the fly instead of storing it in full.</p>
-        </div>
-      </div>
-      <div class="research-item">
-        <div class="rlabel">03 / Writing</div>
-        <div>
-          <h4>Current paper</h4>
-          <p><span class="todo">Working title — add when finalized</span>. In preparation with Dr. Yangwen Zhang, alongside a companion paper (Li–Zhang–Zhang).</p>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -496,7 +443,6 @@
     <div class="sec-head"><span class="sec-sym">§</span><h2>Publications</h2></div>
 
     <div class="pub-group">
-      <h3>Fractional PDEs &amp; Nonlinear Evolution Equations</h3>
       <div class="pub">
         <div class="year">2025</div>
         <div>
@@ -521,7 +467,6 @@
     </div>
 
     <div class="pub-group">
-      <h3>Computational Biology</h3>
       <div class="pub">
         <div class="year">2024</div>
         <div>
@@ -633,7 +578,7 @@
     <div class="sec-head"><span class="sec-sym">§</span><h2>Contact</h2></div>
     <div class="contact-grid">
       <div>
-        <p>I'm always glad to talk about fractional PDEs, low-rank compression, numerical linear algebra, or opportunities in scientific computing.</p>
+        <p>I'm always glad to talk about fractional PDEs, low-rank compression, or opportunities in scientific computing.</p>
         <div class="contact-list">
           <a href="mailto:anamika.math16@gmail.com">📧 Email</a>
           <a href="https://scholar.google.com/citations?user=TdWvEPoAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">🎓 Google Scholar</a>
